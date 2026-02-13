@@ -1,6 +1,6 @@
 package ca.gbc.comp3095.courseservice.service;
 
-/*
+/* JAMES - 
 * This ensures that the controller stays thin
 * Mapping happens in service
 * Exceptions are domain-specific
@@ -16,85 +16,83 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+// PENNY - Removed description
+// PENNY - getId to getCourseId
+// PENNY - Added missing fields
 @Service
 public class CourseServiceImpl implements CourseService {
 
     private final CourseRepository courseRepository;
 
-    public CourseServiceImpl(CourseRepository courseRepository){
-
+    public CourseServiceImpl(CourseRepository courseRepository) {
         this.courseRepository = courseRepository;
     }
 
     @Override
-    public List<CourseResponseDTO> getAllCourses(){
+    public List<CourseResponseDTO> getAllCourses() {
         return courseRepository.findAll()
                 .stream()
-                .map(course -> new CourseResponseDTO(
-                        course.getId(),
-                        course.getCode(),
-                        course.getTitle(),
-                        course.getDescription()
-                ))
+                .map(this::toResponseDTO)
                 .toList();
     }
 
     @Override
-    public CourseResponseDTO getCourseById(Long id){
+    public CourseResponseDTO getCourseById(Long id) {
         Course course = courseRepository.findById(id)
                 .orElseThrow(() -> new CourseNotFoundException(id));
 
-        return new CourseResponseDTO(
-                course.getId(),
-                course.getCode(),
-                course.getTitle(),
-                course.getDescription()
-        );
+        return toResponseDTO(course);
     }
 
     @Override
-    public CourseResponseDTO createCourse(CourseRequestDTO dto){
+    public CourseResponseDTO createCourse(CourseRequestDTO dto) {
         Course course = new Course(
                 dto.getCode(),
                 dto.getTitle(),
-                dto.getDescription()
+                dto.getInstructor(),
+                dto.getSchedule(),
+                dto.getGradeGoal(),
+                dto.getStartWeek()
         );
 
         Course saved = courseRepository.save(course);
-
-        return new CourseResponseDTO(
-                saved.getId(),
-                saved.getCode(),
-                saved.getTitle(),
-                saved.getDescription()
-        );
+        return toResponseDTO(saved);
     }
 
-    // -- New method: updateCourse() -- //
+    // JAMES -- New method: updateCourse() -- //
     @Override
-    public CourseResponseDTO updateCourse(Long id, CourseRequestDTO dto){
+    public CourseResponseDTO updateCourse(Long id, CourseRequestDTO dto) {
         Course course = courseRepository.findById(id)
                 .orElseThrow(() -> new CourseNotFoundException(id));
 
         course.setCode(dto.getCode());
         course.setTitle(dto.getTitle());
-        course.setDescription(dto.getDescription());
+        course.setInstructor(dto.getInstructor());
+        course.setSchedule(dto.getSchedule());
+        course.setGradeGoal(dto.getGradeGoal());
+        course.setStartWeek(dto.getStartWeek());
 
         Course saved = courseRepository.save(course);
-
-        return new CourseResponseDTO(
-                saved.getId(),
-                saved.getCode(),
-                saved.getTitle(),
-                saved.getDescription()
-        );
+        return toResponseDTO(saved);
     }
 
-    // -- New method: deleteCourse() -- //
+    // JAMES -- New method: deleteCourse() -- //
     @Override
-    public void deleteCourse(Long id){
+    public void deleteCourse(Long id) {
         Course course = courseRepository.findById(id)
                 .orElseThrow(() -> new CourseNotFoundException(id));
         courseRepository.delete(course);
+    }
+
+    private CourseResponseDTO toResponseDTO(Course course) {
+        return new CourseResponseDTO(
+                course.getCourseId(),
+                course.getCode(),
+                course.getTitle(),
+                course.getInstructor(),
+                course.getSchedule(),
+                course.getGradeGoal(),
+                course.getStartWeek()
+        );
     }
 }

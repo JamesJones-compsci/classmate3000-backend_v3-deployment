@@ -1,5 +1,4 @@
-package ca.gbc.comp3095.gradeservice.config;
-
+package ca.gbc.comp3095.courseprogressservice.config;
 
 import io.swagger.v3.oas.models.ExternalDocumentation;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -11,12 +10,12 @@ import org.springframework.context.annotation.Configuration;
 public class OpenAPIConfig {
 
     @Bean
-    public OpenAPI customOpenAPI(){
+    public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("Grade Service API")
+                        .title("CourseProgress Service API")
                         .version("v1")
-                        .description("REST API for Grade Service")
+                        .description("REST API for CourseProgress Service")
                 )
                 .externalDocs(new ExternalDocumentation()
                         .description("ClassMate Backend Documentation")

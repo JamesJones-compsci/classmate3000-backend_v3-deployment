@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDateTime;
 
 @Document(collection = "task")
-@Data
+@Data // PENNY -  when using this should not have manual getters/setters/constructors
 @NoArgsConstructor
 @AllArgsConstructor
 public class Task {

@@ -35,7 +35,7 @@ public class CourseRequestDTO {
     private List<LocalDateTime> schedule;
 
     @NotNull(message = "Grade goal is required")
-    private Integer gradeGoal;
+    private Integer gradeGoal;                      // PENNY - needs to be Integer for NotNull to work
 
     @NotNull(message = "Start week is required")
     private LocalDate startWeek;

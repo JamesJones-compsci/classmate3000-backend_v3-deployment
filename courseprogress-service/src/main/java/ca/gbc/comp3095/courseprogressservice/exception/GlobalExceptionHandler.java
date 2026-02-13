@@ -1,6 +1,6 @@
-package ca.gbc.comp3095.gradeservice.exception;
+package ca.gbc.comp3095.courseprogressservice.exception;
 
-/*
+/* JAMES - 
 * This helps ensure:
 *                  - predictable JSON errors
 *                  - no stack traces

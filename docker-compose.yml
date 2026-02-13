@@ -88,13 +88,13 @@ services:
       - classmate-network
 
   # ===============================
-  # Grade Service
+  # CourseProgress Service
   # ===============================
-  grade-service:
+  courseprogress-service:
     build:
-      context: ./grade-service
-    image: classmate_app-integrated-grade-service
-    container_name: grade-service
+      context: ./courseprogress-service
+    image: classmate_app-integrated-courseprogress-service
+    container_name: courseprogress-service
     depends_on:
       - postgres
     environment:
@@ -103,9 +103,11 @@ services:
       SPRING_DATASOURCE_USERNAME: ${POSTGRES_USERNAME}
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
-      - "8085:8081"
+      - "8085:8081"         # PENNY - kept the same ports as for grade service
+    restart: unless-stopped # PENNY - Not sure if we want this?
     networks:
       - classmate-network
+
 
   # ===============================
   # Task Service

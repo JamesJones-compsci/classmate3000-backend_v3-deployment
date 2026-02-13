@@ -1,16 +1,17 @@
-CREATE TABLE courses (
-                         id BIGSERIAL PRIMARY KEY,
-                         code VARCHAR(50) NOT NULL,
-                         title VARCHAR(255) NOT NULL,
-                         description TEXT
+CREATE TABLE IF NOT EXISTS course_progress (
+  progress_id BIGSERIAL PRIMARY KEY,
+  course_id BIGINT NOT NULL,
+
+  accumulated_percent_points DOUBLE PRECISION NOT NULL,
+  used_percent_points DOUBLE PRECISION NOT NULL,
+  lost_percent_points DOUBLE PRECISION NOT NULL,
+  max_possible_percent DOUBLE PRECISION NOT NULL,
+  current_grade_percent DOUBLE PRECISION NOT NULL,
+
+  can_meet_goal BOOLEAN NOT NULL,
+  week_of DATE NOT NULL,
+  computed_at TIMESTAMP NOT NULL
 );
 
-CREATE TABLE grades (
-                        id BIGSERIAL PRIMARY KEY,
-                        course_code VARCHAR(50) NOT NULL,
-                        course_name VARCHAR(255) NOT NULL,
-                        type VARCHAR(50),
-                        grade DOUBLE PRECISION,
-                        weight DOUBLE PRECISION,
-                        feedback TEXT
-);
+CREATE INDEX IF NOT EXISTS idx_course_progress_course_id
+  ON course_progress(course_id);

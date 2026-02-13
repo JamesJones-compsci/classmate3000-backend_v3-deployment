@@ -1,4 +1,4 @@
-package ca.gbc.comp3095.gradeservice.config;
+package ca.gbc.comp3095.courseprogressservice.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

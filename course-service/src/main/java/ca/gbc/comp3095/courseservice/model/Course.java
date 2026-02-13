@@ -21,7 +21,7 @@ public class Course {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "course_id")
+    @Column(name = "id")
     private Long courseId;  // PENNY - Renamed to courseId - TODO: What else is affected by this
 
     @Column(nullable = false)

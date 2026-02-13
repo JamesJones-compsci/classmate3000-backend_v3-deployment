@@ -27,11 +27,15 @@ public class AuthService {
         }
 
         User user = new User();
+        user.setFirstName(request.firstName());
+        user.setLastName(request.lastName());
         user.setEmail(request.email());
         user.setPassword(passwordEncoder.encode(request.password()));
-        userRepository.save(user);
 
-        return new AuthResponseDTO(null);
+        User saved = userRepository.save(user);
+
+        // token generation later
+        return new AuthResponseDTO(saved.getUserId(), null);
     }
 
     public AuthResponseDTO login(LoginRequestDTO request) {
@@ -43,6 +47,7 @@ public class AuthService {
             throw new RuntimeException("invalid credentials");
         }
 
-        return new AuthResponseDTO(null);
+        // token generation later
+        return new AuthResponseDTO(user.getUserId(), null);
     }
 }

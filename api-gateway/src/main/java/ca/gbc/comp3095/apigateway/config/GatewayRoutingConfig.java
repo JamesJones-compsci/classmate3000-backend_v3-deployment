@@ -38,7 +38,21 @@ public class GatewayRoutingConfig {
                 // PENNY - Optional: protected demo endpoint (yours is /api/protected/**)
                 .route("user-service-protected", r -> r.path("/api/protected/**")
                         .uri("http://user-service:8089")) // PENNY - used docker dns name instead of host.docker.internal
- 
+                
+                // PENNY - 
+                // ---- Swagger docs passthrough ----
+                .route("course-service-docs", r -> r.path("/course-service/v3/api-docs/**")
+                        .uri("http://course-service:8080"))
+                .route("courseprogress-service-docs", r -> r.path("/courseprogress-service/v3/api-docs/**")
+                        .uri("http://courseprogress-service:8081"))
+                .route("task-service-docs", r -> r.path("/task-service/v3/api-docs/**")
+                        .uri("http://task-service:8083"))
+                .route("reminder-service-docs", r -> r.path("/reminder-service/v3/api-docs/**")
+                        .uri("http://reminder-service:8082"))
+                .route("user-service-docs", r -> r.path("/user-service/v3/api-docs/**")
+                        .uri("http://user-service:8089"))
+
+
                 .build();
     }
 

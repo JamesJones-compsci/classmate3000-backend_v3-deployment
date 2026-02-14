@@ -1,111 +1,93 @@
-package ca.gbc.comp3095.gradeservice.service;
+package ca.gbc.comp3095.courseprogressservice.service;
 
-import ca.gbc.comp3095.gradeservice.dto.GradeRequestDTO;
-import ca.gbc.comp3095.gradeservice.dto.GradeResponseDTO;
-import ca.gbc.comp3095.gradeservice.exception.GradeNotFoundException;
-import ca.gbc.comp3095.gradeservice.model.Grade;
-import ca.gbc.comp3095.gradeservice.repository.GradeRepository;
+import ca.gbc.comp3095.courseprogressservice.dto.CourseProgressRequestDTO;
+import ca.gbc.comp3095.courseprogressservice.dto.CourseProgressResponseDTO;
+import ca.gbc.comp3095.courseprogressservice.exception.CourseProgressNotFoundException;
+import ca.gbc.comp3095.courseprogressservice.model.CourseProgress;
+import ca.gbc.comp3095.courseprogressservice.repository.CourseProgressRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class GradeServiceImpl implements GradeService{
+public class CourseProgressServiceImpl implements CourseProgressService {
 
-    private final GradeRepository gradeRepository;
+    private final CourseProgressRepository repository;
 
-    public GradeServiceImpl(GradeRepository gradeRepository){
-
-        this.gradeRepository = gradeRepository;
+    public CourseProgressServiceImpl(CourseProgressRepository repository) {
+        this.repository = repository;
     }
 
     @Override
-    public List<GradeResponseDTO> getAllGrades(){
-        return gradeRepository.findAll()
-                .stream()
-                .map(grade -> new GradeResponseDTO(
-                        grade.getId(),
-                        grade.getCourseCode(),
-                        grade.getCourseName(),
-                        grade.getType(),
-                        grade.getGrade(),
-                        grade.getWeight(),
-                        grade.getFeedback()
-                ))
-                .toList();
+    public List<CourseProgressResponseDTO> getAllProgress() {
+        return repository.findAll().stream().map(this::toResponse).toList();
     }
 
     @Override
-    public GradeResponseDTO getGradeById(Long id){
-        Grade grade = gradeRepository.findById(id)
-                .orElseThrow(() -> new GradeNotFoundException(id));
+    public CourseProgressResponseDTO getProgressById(Long id) {
+        CourseProgress p = repository.findById(id)
+                .orElseThrow(() -> new CourseProgressNotFoundException(id));
+        return toResponse(p);
+    }
 
-        return new GradeResponseDTO(
-                grade.getId(),
-                grade.getCourseCode(),
-                grade.getCourseName(),
-                grade.getType(),
-                grade.getGrade(),
-                grade.getWeight(),
-                grade.getFeedback()
+    @Override
+    public List<CourseProgressResponseDTO> getProgressByCourseId(Long courseId) {
+        return repository.findByCourseId(courseId).stream().map(this::toResponse).toList();
+    }
+
+    @Override
+    public CourseProgressResponseDTO createProgress(CourseProgressRequestDTO dto) {
+        CourseProgress p = new CourseProgress(
+                dto.getCourseId(),
+                dto.getAccumulatedPercentPoints(),
+                dto.getUsedPercentPoints(),
+                dto.getLostPercentPoints(),
+                dto.getMaxPossiblePercent(),
+                dto.getCurrentGradePercent(),
+                dto.isCanMeetGoal(),
+                dto.getWeekOf(),
+                dto.getComputedAt()
         );
+        return toResponse(repository.save(p));
     }
 
     @Override
-    public GradeResponseDTO createGrade(GradeRequestDTO dto){
-        Grade grade = new Grade(
-                dto.getCourseCode(),
-                dto.getCourseName(),
-                dto.getType(),
-                dto.getGrade(),
-                dto.getWeight(),
-                dto.getFeedback()
-        );
+    public CourseProgressResponseDTO updateProgress(Long id, CourseProgressRequestDTO dto) {
+        CourseProgress p = repository.findById(id)
+                .orElseThrow(() -> new CourseProgressNotFoundException(id));
 
-        Grade saved = gradeRepository.save(grade);
+        p.setCourseId(dto.getCourseId());
+        p.setAccumulatedPercentPoints(dto.getAccumulatedPercentPoints());
+        p.setUsedPercentPoints(dto.getUsedPercentPoints());
+        p.setLostPercentPoints(dto.getLostPercentPoints());
+        p.setMaxPossiblePercent(dto.getMaxPossiblePercent());
+        p.setCurrentGradePercent(dto.getCurrentGradePercent());
+        p.setCanMeetGoal(dto.isCanMeetGoal());
+        p.setWeekOf(dto.getWeekOf());
+        p.setComputedAt(dto.getComputedAt());
 
-        return new GradeResponseDTO(
-                saved.getId(),
-                saved.getCourseCode(),
-                saved.getCourseName(),
-                saved.getType(),
-                saved.getGrade(),
-                saved.getWeight(),
-                saved.getFeedback()
-        );
+        return toResponse(repository.save(p));
     }
 
-    // -- New method: updateGrade() -- //
     @Override
-    public GradeResponseDTO updateGrade(Long id, GradeRequestDTO dto){
-        Grade grade = gradeRepository.findById(id)
-                .orElseThrow(() -> new GradeNotFoundException(id));
-
-        grade.setCourseCode(dto.getCourseCode());
-        grade.setCourseName(dto.getCourseName());
-        grade.setType(dto.getType());
-        grade.setGrade(dto.getGrade());
-        grade.setWeight(dto.getWeight());
-        grade.setFeedback(dto.getFeedback());
-
-        Grade saved = gradeRepository.save(grade);
-
-        return new GradeResponseDTO(
-                saved.getId(),
-                saved.getCourseCode(),
-                saved.getCourseName(),
-                saved.getType(),
-                saved.getGrade(),
-                saved.getWeight(),
-                saved.getFeedback()
-        );
+    public void deleteProgress(Long id) {
+        CourseProgress p = repository.findById(id)
+                .orElseThrow(() -> new CourseProgressNotFoundException(id));
+        repository.delete(p);
     }
 
-    // -- New method: deleteGrade() -- //
-    @Override
-    public void deleteGrade(Long id){
-        Grade grade = gradeRepository.findById(id)
-                .orElseThrow(() -> new GradeNotFoundException(id));
-        gradeRepository.delete(grade);
+    private CourseProgressResponseDTO toResponse(CourseProgress p) {
+        return new CourseProgressResponseDTO(
+                p.getProgressId(),
+                p.getCourseId(),
+                p.getAccumulatedPercentPoints(),
+                p.getUsedPercentPoints(),
+                p.getLostPercentPoints(),
+                p.getMaxPossiblePercent(),
+                p.getCurrentGradePercent(),
+                p.isCanMeetGoal(),
+                p.getWeekOf(),
+                p.getComputedAt()
+        );
     }
 }

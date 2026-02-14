@@ -31,10 +31,13 @@ public class GatewayRoutingConfig {
                         // PENNY // .filters(f -> f.stripPrefix(3)) // JAMES - <-- FIX
                         .uri("http://task-service:8083"))  // PENNY - used docker dns name instead of host.docker.internal
 
-                // User Service
-                .route("user-service", r -> r.path("/api/v1/users/**")
-                        // PENNY // .filters(f -> f.stripPrefix(3)) // JAMES - <-- FIX
-                        .uri("http://user-service:8089"))  // PENNY - used docker dns name instead of host.docker.internal
+                // PENNY - User Auth endpoints
+                .route("user-service-auth", r -> r.path("/api/v1/auth/**")
+                        .uri("http://user-service:8089"))
+
+                // PENNY - Optional: protected demo endpoint (yours is /api/protected/**)
+                .route("user-service-protected", r -> r.path("/api/protected/**")
+                        .uri("http://user-service:8089")) // PENNY - used docker dns name instead of host.docker.internal
  
                 .build();
     }

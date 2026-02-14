@@ -18,6 +18,7 @@ public class SecurityConfig {
                 .authorizeExchange(exchanges -> exchanges
                         .pathMatchers(
                                 "/api/auth/**",
+                                "/api/v1/auth/**",
                                 "/actuator/**",
 
                                 // Swagger UI

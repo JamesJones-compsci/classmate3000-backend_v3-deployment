@@ -42,16 +42,24 @@ public class GatewayRoutingConfig {
                 // PENNY - 
                 // ---- Swagger docs passthrough ----
                 .route("course-service-docs", r -> r.path("/course-service/v3/api-docs/**")
+                        .filters(f -> f.stripPrefix(1))
                         .uri("http://course-service:8080"))
-                .route("courseprogress-service-docs", r -> r.path("/courseprogress-service/v3/api-docs/**")
-                        .uri("http://courseprogress-service:8081"))
-                .route("task-service-docs", r -> r.path("/task-service/v3/api-docs/**")
-                        .uri("http://task-service:8083"))
-                .route("reminder-service-docs", r -> r.path("/reminder-service/v3/api-docs/**")
-                        .uri("http://reminder-service:8082"))
-                .route("user-service-docs", r -> r.path("/user-service/v3/api-docs/**")
-                        .uri("http://user-service:8089"))
 
+                .route("courseprogress-service-docs", r -> r.path("/courseprogress-service/v3/api-docs/**")
+                        .filters(f -> f.stripPrefix(1))
+                        .uri("http://courseprogress-service:8081"))
+
+                .route("task-service-docs", r -> r.path("/task-service/v3/api-docs/**")
+                        .filters(f -> f.stripPrefix(1))
+                        .uri("http://task-service:8083"))
+
+                .route("reminder-service-docs", r -> r.path("/reminder-service/v3/api-docs/**")
+                        .filters(f -> f.stripPrefix(1))
+                        .uri("http://reminder-service:8082"))
+
+                .route("user-service-docs", r -> r.path("/user-service/v3/api-docs/**")
+                        .filters(f -> f.stripPrefix(1))
+                        .uri("http://user-service:8089"))
 
                 .build();
     }

@@ -1,4 +1,4 @@
-package ca.gbc.comp3095.courseprogresservice.model;
+package ca.gbc.comp3095.courseprogressservice.model;
 
 import jakarta.persistence.*;
 // PENNY - added these imports
@@ -11,9 +11,10 @@ public class CourseProgress {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "progress_id")
     private Long progressId;
 
-    @Column(nullable = false)
+    @Column(name = "course_id", nullable = false)
     private Long courseId;
 
     @Column(nullable = false)
@@ -34,10 +35,10 @@ public class CourseProgress {
     @Column(nullable = false)
     private boolean canMeetGoal;
 
-    @Column(nullable = false)
+    @Column(name = "week_of", nullable = false)
     private LocalDate weekOf;
 
-    @Column(nullable = false)
+    @Column(name = "computed_at", nullable = false)
     private LocalDateTime computedAt;
 
     // JAMES - JPA requires a no-args constructor (shows an error if not added)

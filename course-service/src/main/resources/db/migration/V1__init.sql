@@ -2,7 +2,9 @@
 -- Course Service - Initial Schema
 -- ===============================
 
--- Courses table
+CREATE SCHEMA IF NOT EXISTS course_service;
+SET search_path TO course_service;
+
 CREATE TABLE IF NOT EXISTS courses (
   id          BIGSERIAL PRIMARY KEY,
   code        VARCHAR(10)  NOT NULL,
@@ -12,22 +14,20 @@ CREATE TABLE IF NOT EXISTS courses (
   start_week  DATE         NOT NULL
 );
 
--- Optional: prevent duplicate course codes (uncomment if code should be unique)
--- CREATE UNIQUE INDEX IF NOT EXISTS uq_courses_code ON courses(code);
-
--- Schedule table for @ElementCollection List<LocalDateTime>
-CREATE TABLE IF NOT EXISTS course_schedule (
-  course_id    BIGINT     NOT NULL,
-  scheduled_at TIMESTAMP  NOT NULL,
-
-  CONSTRAINT fk_course_schedule_course
+-- Meetings for each course (multiple rows per course)
+-- day_of_week: 1=Monday ... 7=Sunday (simple + portable)
+CREATE TABLE IF NOT EXISTS course_meetings (
+  course_id   BIGINT   NOT NULL,
+  day_of_week INTEGER NOT NULL CHECK (day_of_week BETWEEN 1 AND 7),
+  start_time  TIME     NOT NULL,
+  end_time    TIME     NOT NULL,
+  CONSTRAINT fk_course_meetings_course
     FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE,
-
-  -- Prevent duplicates for the same course time and makes the join table well-defined
-  CONSTRAINT pk_course_schedule
-    PRIMARY KEY (course_id, scheduled_at)
+  CONSTRAINT chk_course_meetings_time
+    CHECK (end_time > start_time),
+  CONSTRAINT pk_course_meetings
+    PRIMARY KEY (course_id, day_of_week, start_time, end_time)
 );
 
--- Helpful index for lookups by course_id
-CREATE INDEX IF NOT EXISTS idx_course_schedule_course_id
-  ON course_schedule(course_id);
+CREATE INDEX IF NOT EXISTS idx_course_meetings_course_id
+  ON course_meetings(course_id);

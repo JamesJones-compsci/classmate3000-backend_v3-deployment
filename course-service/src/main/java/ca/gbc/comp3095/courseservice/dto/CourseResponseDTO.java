@@ -12,7 +12,7 @@ package ca.gbc.comp3095.courseservice.dto;
 
 // PENNY - Added imports
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 public class CourseResponseDTO {
@@ -21,24 +21,33 @@ public class CourseResponseDTO {
     private final String code;
     private final String title;
     private final String instructor;
-    private final List<LocalDateTime> schedule;
+    private final List<MeetingDTO> meetings;
     private final int gradeGoal;
     private final LocalDate startWeek;
 
-    public CourseResponseDTO(
-            Long courseId,
-            String code,
-            String title,
-            String instructor,
-            List<LocalDateTime> schedule,
-            int gradeGoal,
-            LocalDate startWeek
-    ) {
+    public static class MeetingDTO {
+        private final Integer dayOfWeek;
+        private final LocalTime startTime;
+        private final LocalTime endTime;
+
+        public MeetingDTO(Integer dayOfWeek, LocalTime startTime, LocalTime endTime) {
+            this.dayOfWeek = dayOfWeek;
+            this.startTime = startTime;
+            this.endTime = endTime;
+        }
+
+        public Integer getDayOfWeek() { return dayOfWeek; }
+        public LocalTime getStartTime() { return startTime; }
+        public LocalTime getEndTime() { return endTime; }
+    }
+
+    public CourseResponseDTO(Long courseId, String code, String title, String instructor,
+                             List<MeetingDTO> meetings, int gradeGoal, LocalDate startWeek) {
         this.courseId = courseId;
         this.code = code;
         this.title = title;
         this.instructor = instructor;
-        this.schedule = schedule;
+        this.meetings = meetings;
         this.gradeGoal = gradeGoal;
         this.startWeek = startWeek;
     }
@@ -47,7 +56,7 @@ public class CourseResponseDTO {
     public String getCode() { return code; }
     public String getTitle() { return title; }
     public String getInstructor() { return instructor; }
-    public List<LocalDateTime> getSchedule() { return schedule; }
+    public List<MeetingDTO> getMeetings() { return meetings; }
     public int getGradeGoal() { return gradeGoal; }
     public LocalDate getStartWeek() { return startWeek; }
 }

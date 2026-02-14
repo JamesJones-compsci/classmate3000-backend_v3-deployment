@@ -1,3 +1,7 @@
+-- ===============================
+-- CourseProgress Service - Initial Schema
+-- ===============================
+
 CREATE TABLE IF NOT EXISTS course_progress (
   progress_id BIGSERIAL PRIMARY KEY,
   course_id BIGINT NOT NULL,
@@ -15,3 +19,7 @@ CREATE TABLE IF NOT EXISTS course_progress (
 
 CREATE INDEX IF NOT EXISTS idx_course_progress_course_id
   ON course_progress(course_id);
+
+-- Optional: common query patterns (uncomment if you query by week/course often)
+-- CREATE INDEX IF NOT EXISTS idx_course_progress_course_week
+--   ON course_progress(course_id, week_of);

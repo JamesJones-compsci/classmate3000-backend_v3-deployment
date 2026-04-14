@@ -13,25 +13,25 @@ public class GatewayRoutingConfig {
         return builder.routes()
                 // Course Service
                 .route("course-service", r -> r.path("/api/v1/courses/**")
-                        .filters(f -> f.stripPrefix(3)) // JAMES - <-- FIX
+                        .filters(f -> f.stripPrefix(2)) // JAMES - <-- FIX
                         .uri("https://classmate3000-course-service.onrender.com")) // Update URL for Render deployment
                       //  .uri("http://course-service:8080")) // PENNY - used docker dns name instead of host.docker.internal
 
                 // CourseProgress Service
                 .route("courseprogress-service", r -> r.path("/api/v1/course-progress/**")
-                        .filters(f -> f.stripPrefix(3)) // JAMES - <-- FIX
+                        .filters(f -> f.stripPrefix(2)) // JAMES - <-- FIX
                         .uri("https://classmate3000-courseprogress-service.onrender.com"))  // Update URL for Render deployment
                        // .uri("http://courseprogress-service:8081"))  // PENNY - used docker dns name instead of host.docker.internal
 
                 // Reminder Service
                 .route("reminder-service", r -> r.path("/api/v1/reminders/**")
-                         .filters(f -> f.stripPrefix(3)) // JAMES - <-- FIX
+                         .filters(f -> f.stripPrefix(2)) // JAMES - <-- FIX
                          .uri("https://classmate3000-reminder-service.onrender.com"))    // Update URL for Render deployment
                         // .uri("http://reminder-service:8082"))  // PENNY - used docker dns name instead of host.docker.internal
  
                 // Task Service
                 .route("task-service", r -> r.path("/api/v1/tasks/**")
-                         .filters(f -> f.stripPrefix(3)) // JAMES - <-- FIX
+                         .filters(f -> f.stripPrefix(2)) // JAMES - <-- FIX
                          .uri("https://classmate3000-task-service.onrender.com"))    // Update URL for Render deployment
                         // .uri("http://task-service:8083"))  // PENNY - used docker dns name instead of host.docker.internal
 

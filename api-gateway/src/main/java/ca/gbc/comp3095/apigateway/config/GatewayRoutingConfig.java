@@ -59,7 +59,7 @@ public class GatewayRoutingConfig {
 
                 .route("task-service-docs", r -> r.path("/task-service/v3/api-docs/**")
                         .filters(f -> f.stripPrefix(1))
-                         .uri("https://classmate3000-task-service.onrender.com"))    // Update URL for Render deployment
+                         .uri("https://classmate3000-task-service.onrender.com"))     // Update URL for Render deployment
                         // .uri("http://task-service:8083"))
 
                 .route("reminder-service-docs", r -> r.path("/reminder-service/v3/api-docs/**")

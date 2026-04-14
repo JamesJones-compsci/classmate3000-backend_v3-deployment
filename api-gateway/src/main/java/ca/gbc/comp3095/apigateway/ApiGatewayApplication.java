@@ -15,5 +15,7 @@ public class ApiGatewayApplication {
 		SpringApplication.run(ApiGatewayApplication.class, args);
 
 		System.out.println("API Gateway initialized");
+		System.out.println("API Gateway STARTING...");
+		System.out.println("API Gateway RUNNING on port");
 	}
 }

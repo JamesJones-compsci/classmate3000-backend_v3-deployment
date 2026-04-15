@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class GatewayRoutingConfig {
-
+    // Remove this comment : here to trigger redeployment while documenting the debugged backend
     @Bean
     public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
         return builder.routes()

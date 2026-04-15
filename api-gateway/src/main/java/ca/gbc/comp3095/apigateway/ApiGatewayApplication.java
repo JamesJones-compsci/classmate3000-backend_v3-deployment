@@ -18,4 +18,5 @@ public class ApiGatewayApplication {
 		System.out.println("API Gateway STARTING...");
 		System.out.println("API Gateway RUNNING on port");
 	}
+
 }

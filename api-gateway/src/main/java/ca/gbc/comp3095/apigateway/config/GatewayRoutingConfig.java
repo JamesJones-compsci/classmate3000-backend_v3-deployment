@@ -13,7 +13,7 @@ public class GatewayRoutingConfig {
         return builder.routes()
                 // Course Service
                 .route("course-service", r -> r.path("/api/v1/courses/**")
-                       // .filters(f -> f.stripPrefix(2)) // JAMES - <-- FIX Updated to fix too many tries error
+                       // .filters(f -> f.stripPrefix(2)) // JAMES - <-- FIX Updated to fix too many tries error and trigger deploy
                         .filters(f -> f
                                 .retry(config -> config
                                         .setRetries(1)

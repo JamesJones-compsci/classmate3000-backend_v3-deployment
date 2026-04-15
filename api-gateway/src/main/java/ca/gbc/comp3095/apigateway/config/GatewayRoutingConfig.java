@@ -83,7 +83,6 @@ public class GatewayRoutingConfig {
                 .route("user-service-auth", r -> r.path("/api/v1/auth/**")
                         .filters(f -> f
                                 .retry(config -> config
-                                        .setRetries(3)
                                         .setMethods(org.springframework.http.HttpMethod.GET)
                                         .setStatuses(
                                                 org.springframework.http.HttpStatus.BAD_GATEWAY,
@@ -99,7 +98,7 @@ public class GatewayRoutingConfig {
                 .route("user-service-protected", r -> r.path("/api/protected/**")
                         .filters(f -> f
                                 .retry(config -> config
-                                        .setRetries(3)
+                                        .setRetries(0)
                                         .setMethods(org.springframework.http.HttpMethod.GET)
                                         .setStatuses(
                                                 org.springframework.http.HttpStatus.BAD_GATEWAY,

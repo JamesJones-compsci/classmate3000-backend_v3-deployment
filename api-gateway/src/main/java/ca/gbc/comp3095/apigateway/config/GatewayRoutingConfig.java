@@ -80,34 +80,17 @@ public class GatewayRoutingConfig {
                         // .uri("http://task-service:8083"))  // PENNY - used docker dns name instead of host.docker.internal
 
                 // PENNY - User Auth endpoints
-                .route("user-service-auth", r -> r.path("/api/v1/auth/**")
-                        .filters(f -> f
-                                .retry(config -> config
-                                        .setMethods(org.springframework.http.HttpMethod.GET)
-                                        .setStatuses(
-                                                org.springframework.http.HttpStatus.BAD_GATEWAY,
-                                                org.springframework.http.HttpStatus.GATEWAY_TIMEOUT,
-                                                org.springframework.http.HttpStatus.SERVICE_UNAVAILABLE
-                                        )
-                                )
-                        )
-                         .uri("https://classmate3000-user-service.onrender.com"))        // Update URL for Render deployment
+                .route("user-service-auth", r -> r
+                        .path("/api/v1/auth/**")
+                        .uri("https://classmate3000-user-service.onrender.com")) // Update URL for Render deployment
                         // .uri("http://user-service:8089"))
 
                 // PENNY - Optional: protected demo endpoint (yours is /api/protected/**)
-                .route("user-service-protected", r -> r.path("/api/protected/**")
-                        .filters(f -> f
-                                .retry(config -> config
-                                        .setMethods(org.springframework.http.HttpMethod.GET)
-                                        .setStatuses(
-                                                org.springframework.http.HttpStatus.BAD_GATEWAY,
-                                                org.springframework.http.HttpStatus.GATEWAY_TIMEOUT,
-                                                org.springframework.http.HttpStatus.SERVICE_UNAVAILABLE
-                                        )
-                                )
-                        )
-                         .uri("https://classmate3000-user-service.onrender.com"))    // Update URL for Render deployment
-                        // .uri("http://user-service:8089")) // PENNY - used docker dns name instead of host.docker.internal
+                .route("user-service-protected", r -> r
+                        .path("/api/protected/**")
+                        .uri("https://classmate3000-user-service.onrender.com"))    // Update URL for Render deployment
+                // .uri("http://user-service:8089")) // PENNY - used docker dns name instead of host.docker.internal
+
                 
                 // PENNY - 
                 // ---- Swagger docs passthrough ----

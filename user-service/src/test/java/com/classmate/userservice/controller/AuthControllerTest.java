@@ -43,11 +43,11 @@ public class AuthControllerTest {
                 "John", "Doe", "john@example.com", "password123"
         );
 
-<<<<<<< HEAD
+
         AuthResponseDTO response = new AuthResponseDTO(1L, "mock-jwt-token", "Test", "User");
-=======
-        AuthResponseDTO response = new AuthResponseDTO(1L, "mock-jwt-token");
->>>>>>> main
+
+        // AuthResponseDTO response = new AuthResponseDTO(1L, "mock-jwt-token");
+
 
         when(authService.register(request)).thenReturn(response);
 
@@ -68,11 +68,11 @@ public class AuthControllerTest {
                 "john@example.com", "password123"
         );
 
-<<<<<<< HEAD
+
         AuthResponseDTO response = new AuthResponseDTO(1L, "mock-jwt-token", "Test", "User");
-=======
-        AuthResponseDTO response = new AuthResponseDTO(1L, "mock-jwt-token");
->>>>>>> main
+
+        // AuthResponseDTO response = new AuthResponseDTO(1L, "mock-jwt-token");
+
 
         when(authService.login(request)).thenReturn(response);
 
